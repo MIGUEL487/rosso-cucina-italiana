@@ -1,13 +1,11 @@
 export const theme = {
   colors: {
-    wine900: '#3F120E',
-    wine700: '#5C1B16',
-    wine500: '#7A2A22',
-    cream100: '#EEE5CF',
-    cream50: '#F6EBD9',
-    ink: '#500000',
-    tomato: '#C8281E',
-    basil: '#4C7A34',
+    cafe: '#221710',        // Café intenso escuro de fundo nobre
+    marrom: '#49301B',      // Marrom institucional da marca
+    creme: '#F7F0E2',       // Creme papel do fundo claro
+    manteiga: '#E7D2AC',    // Manteiga suave para acentos e molduras
+    verde: '#526343',       // Verde ervas discreto
+    terracota: '#A64F33',   // Terracota quente em detalhes e tags
   },
   fonts: {
     serif: 'var(--font-serif)',
@@ -18,14 +16,7 @@ export const theme = {
     base: '8px',
     lg: '16px',
     xl: '24px',
-  },
-  spacing: {
-    xs: '8px',
-    sm: '16px',
-    md: '24px',
-    lg: '32px',
-    xl: '48px',
-    xxl: '64px',
+    pill: '9999px',
   },
 } as const;
 

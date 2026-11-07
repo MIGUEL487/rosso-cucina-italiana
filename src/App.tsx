@@ -2,24 +2,24 @@ import React, { useEffect, useState, useRef } from 'react';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
 import { Header } from './components/Header';
-import { PageDots } from './components/PageDots';
-import { SectionLabel } from './components/SectionLabel';
-import { ScrollStory } from './components/ScrollStory';
-import { Footer } from './components/Footer';
-import { siteContent } from './content/site';
+import { Hero } from './components/Hero';
+import { StoryTransition } from './components/StoryTransition';
+import { Specialty } from './components/Specialty';
+import { VarietyGrid } from './components/VarietyGrid';
+import { Invitation } from './components/Invitation';
+import { SiteFooter } from './components/SiteFooter';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export const App: React.FC = () => {
   const [isCream, setIsCream] = useState(false);
-  const [activeAct, setActiveAct] = useState(0);
-  const [isFooterVisible, setIsFooterVisible] = useState(false);
-  const [reservationOpen, setReservationOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState('inicio');
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
-    // Initialize Lenis smooth scroll
+    // 1. Initialize Lenis Smooth Scroll
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -42,130 +42,140 @@ export const App: React.FC = () => {
     gsap.ticker.add(updateTicker);
     gsap.ticker.lagSmoothing(0);
 
-    // Watch footer visibility to hide PageDots & SectionLabel on footer
-    const footerTrigger = ScrollTrigger.create({
-      trigger: '#contato',
-      start: 'top 85%',
-      end: 'bottom bottom',
-      onEnter: () => setIsFooterVisible(true),
-      onLeaveBack: () => setIsFooterVisible(false),
+    // 2. Setup ScrollTriggers for header theme & active section detection
+    const ctx = gsap.context(() => {
+      // Hero (#inicio): Café (dark)
+      ScrollTrigger.create({
+        trigger: '#inicio',
+        start: 'top 40%',
+        end: 'bottom 40%',
+        onEnter: () => {
+          setIsCream(false);
+          setActiveSection('inicio');
+        },
+        onEnterBack: () => {
+          setIsCream(false);
+          setActiveSection('inicio');
+        },
+      });
+
+      // Nossa Cozinha (#nossa-cozinha): Creme (light)
+      ScrollTrigger.create({
+        trigger: '#nossa-cozinha',
+        start: 'top 40%',
+        end: 'bottom 40%',
+        onEnter: () => {
+          setIsCream(true);
+          setActiveSection('nossa-cozinha');
+        },
+        onEnterBack: () => {
+          setIsCream(true);
+          setActiveSection('nossa-cozinha');
+        },
+      });
+
+      // Especialidade (#especialidade): Café (dark)
+      ScrollTrigger.create({
+        trigger: '#especialidade',
+        start: 'top 40%',
+        end: 'bottom 40%',
+        onEnter: () => {
+          setIsCream(false);
+          setActiveSection('especialidade');
+        },
+        onEnterBack: () => {
+          setIsCream(false);
+          setActiveSection('especialidade');
+        },
+      });
+
+      // Sabores (#sabores): Creme (light)
+      ScrollTrigger.create({
+        trigger: '#sabores',
+        start: 'top 40%',
+        end: 'bottom 40%',
+        onEnter: () => {
+          setIsCream(true);
+          setActiveSection('sabores');
+        },
+        onEnterBack: () => {
+          setIsCream(true);
+          setActiveSection('sabores');
+        },
+      });
+
+      // Visita (#visita): Café (dark)
+      ScrollTrigger.create({
+        trigger: '#visita',
+        start: 'top 40%',
+        end: 'bottom bottom',
+        onEnter: () => {
+          setIsCream(false);
+          setActiveSection('visita');
+        },
+        onEnterBack: () => {
+          setIsCream(false);
+          setActiveSection('visita');
+        },
+      });
     });
 
-    // Handle initial hash in URL (e.g. #ingredientes)
-    const handleInitialHash = () => {
-      const hash = window.location.hash;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (hash === '#ingredientes') {
-        lenis.scrollTo(maxScroll * 0.48, { duration: 1.2 });
-      } else if (hash === '#cardapio') {
-        lenis.scrollTo(maxScroll * 0.88, { duration: 1.2 });
-      } else if (hash === '#contato') {
-        lenis.scrollTo(maxScroll, { duration: 1.2 });
+    // Handle hash links with Lenis
+    const handleHashClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest('a');
+      if (target && target.hash && target.hash.startsWith('#')) {
+        const el = document.querySelector(target.hash);
+        if (el) {
+          e.preventDefault();
+          lenis.scrollTo(el as HTMLElement, { offset: -60, duration: 1.2 });
+        }
       }
     };
 
-    // Delay slightly to allow DOM and ScrollTrigger calculation
-    const timer = setTimeout(handleInitialHash, 300);
+    document.addEventListener('click', handleHashClick);
+
+    // Refresh ScrollTrigger once DOM is stabilized
+    const timer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 200);
 
     return () => {
       clearTimeout(timer);
-      footerTrigger.kill();
+      document.removeEventListener('click', handleHashClick);
+      ctx.revert();
       gsap.ticker.remove(updateTicker);
       lenis.destroy();
     };
   }, []);
 
-  const handleActClick = (actIndex: number) => {
-    if (!lenisRef.current) return;
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    // Act 0 -> top (0%)
-    // Act 1 -> Ingredientes / Balé (48%)
-    // Act 2 -> Masterpiece / Prato (88%)
-    const targetScroll = actIndex === 0 ? 0 : actIndex === 1 ? maxScroll * 0.48 : maxScroll * 0.88;
-    lenisRef.current.scrollTo(targetScroll, { duration: 1.5 });
-  };
-
   return (
-    <div className="relative min-h-screen bg-wine-900 font-sans selection:bg-tomato selection:text-white">
-      {/* Dynamic Header */}
-      <Header isCream={isCream} activeSection={activeAct} />
+    <div className="relative min-h-screen bg-[#221710] font-sans text-[#F7F0E2] selection:bg-[#A64F33] selection:text-white">
+      {/* Sticky Dynamic Header */}
+      <Header isCream={isCream} activeSection={activeSection} />
 
-      {/* Persistent Left Section Label (hidden on footer) */}
-      <div className={`transition-opacity duration-500 ${isFooterVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        <SectionLabel
-          label={
-            activeAct === 0
-              ? siteContent.hero.sectionLabel
-              : activeAct === 1
-              ? 'SEÇÃO 02'
-              : 'SEÇÃO 03'
-          }
-          isCream={isCream}
-        />
-      </div>
+      {/* Main Content Sections */}
+      <main>
+        {/* Sequência A: Hero Cinematográfico Editorial */}
+        <Hero />
 
-      {/* Right Vertical Page Dots Indicator (hidden on footer) */}
-      <div className={`transition-opacity duration-500 ${isFooterVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
-        <PageDots
-          currentAct={activeAct}
-          isCream={isCream}
-          onActClick={handleActClick}
-        />
-      </div>
+        {/* Sequência B: Da nossa cozinha para a sua mesa */}
+        <StoryTransition />
 
-      {/* Main Orchestrated Scroll Story (Acts 1, 2, 3) */}
-      <main id="inicio">
-        <ScrollStory
-          onCreamChange={setIsCream}
-          onActChange={setActiveAct}
-        />
+        {/* Sequência C: Especialidade de Monte Sião (Macarrão Quadrado) */}
+        <Specialty />
+
+        {/* Sequência D: Variedade de Sabores */}
+        <VarietyGrid />
+
+        {/* Sequência E: Atmosfera e Convite */}
+        <Invitation />
       </main>
 
-      {/* Elegant Footer */}
-      <Footer />
-
-      {/* Reservation Dialog Modal */}
-      {reservationOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-ink/70 backdrop-blur-md animate-fadeIn">
-          <div className="bg-cream-100 text-ink rounded-3xl p-8 max-w-md w-full shadow-2xl border border-ink/10 relative">
-            <button
-              type="button"
-              onClick={() => setReservationOpen(false)}
-              className="absolute top-6 right-6 text-ink/60 hover:text-ink font-bold text-xl"
-            >
-              ✕
-            </button>
-            <span className="text-[11px] font-bold tracking-[0.25em] text-ink/70 uppercase block mb-1">
-              Reserva
-            </span>
-            <h3 className="font-serif text-3xl mb-4 text-ink">
-              Reserve sua Mesa
-            </h3>
-            <p className="text-xs text-ink/70 mb-6 font-light leading-relaxed">
-              Atendimento exclusivo para almoço e jantar. Para confirmações imediatas, fale diretamente com nossa equipe via WhatsApp.
-            </p>
-            <div className="space-y-3">
-              <a
-                href={siteContent.socials.whatsapp}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center py-3.5 rounded-full bg-ink text-cream-50 text-xs font-semibold tracking-widest uppercase hover:bg-wine-700 transition-colors"
-              >
-                Reservar pelo WhatsApp
-              </a>
-              <button
-                type="button"
-                onClick={() => setReservationOpen(false)}
-                className="w-full inline-flex items-center justify-center py-3 rounded-full border border-ink/30 text-ink text-xs font-semibold tracking-wider hover:bg-ink/5 transition-colors"
-              >
-                Fechar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Rodapé Nobre */}
+      <SiteFooter />
     </div>
   );
 };
 
 export default App;
+

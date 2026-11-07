@@ -1,0 +1,172 @@
+[
+  {
+    "file": "reais/buffet-macarrao-colorido.webp",
+    "original": "image(20261107-220251).png",
+    "source_crop": [
+      5,
+      5,
+      221,
+      283
+    ],
+    "pixel_size": [
+      216,
+      278
+    ],
+    "type": "foto real recortada de captura fornecida"
+  },
+  {
+    "file": "reais/salada-verde-prato.webp",
+    "original": "image(20261107-220251).png",
+    "source_crop": [
+      231,
+      5,
+      446,
+      283
+    ],
+    "pixel_size": [
+      215,
+      278
+    ],
+    "type": "foto real recortada de captura fornecida"
+  },
+  {
+    "file": "reais/prato-feito-macarrao-e-carne.webp",
+    "original": "image(20261107-220251).png",
+    "source_crop": [
+      5,
+      293,
+      221,
+      572
+    ],
+    "pixel_size": [
+      216,
+      279
+    ],
+    "type": "foto real recortada de captura fornecida"
+  },
+  {
+    "file": "reais/prato-feito-carne-e-acompanhamentos.webp",
+    "original": "image(20261107-220251).png",
+    "source_crop": [
+      231,
+      293,
+      446,
+      572
+    ],
+    "pixel_size": [
+      215,
+      279
+    ],
+    "type": "foto real recortada de captura fornecida"
+  },
+  {
+    "file": "reais/prato-com-aneis-de-cebola.webp",
+    "original": "image(20261107-220322).png",
+    "source_crop": [
+      5,
+      5,
+      223,
+      284
+    ],
+    "pixel_size": [
+      218,
+      279
+    ],
+    "type": "foto real recortada de captura fornecida"
+  },
+  {
+    "file": "reais/pratos-com-creme-e-verdes.webp",
+    "original": "image(20261107-220322).png",
+    "source_crop": [
+      233,
+      5,
+      449,
+      284
+    ],
+    "pixel_size": [
+      216,
+      279
+    ],
+    "type": "foto real recortada de captura fornecida"
+  },
+  {
+    "file": "reais/assado-enrolado.webp",
+    "original": "image(20261107-220322).png",
+    "source_crop": [
+      5,
+      294,
+      223,
+      573
+    ],
+    "pixel_size": [
+      218,
+      279
+    ],
+    "type": "foto real recortada de captura fornecida"
+  },
+  {
+    "file": "reais/buffet-saladas.webp",
+    "original": "image(20261107-220322).png",
+    "source_crop": [
+      233,
+      294,
+      449,
+      573
+    ],
+    "pixel_size": [
+      216,
+      279
+    ],
+    "type": "foto real recortada de captura fornecida"
+  },
+  {
+    "file": "reais/buffet-legumes-e-salada.webp",
+    "original": "image(20261107-220337).png",
+    "source_crop": [
+      5,
+      7,
+      227,
+      292
+    ],
+    "pixel_size": [
+      222,
+      285
+    ],
+    "type": "foto real recortada de captura fornecida"
+  },
+  {
+    "file": "reais/buffet-assados.webp",
+    "original": "image(20261107-220337).png",
+    "source_crop": [
+      237,
+      7,
+      458,
+      292
+    ],
+    "pixel_size": [
+      221,
+      285
+    ],
+    "type": "foto real recortada de captura fornecida"
+  },
+  {
+    "file": "marca/logo-original.png",
+    "type": "logo fornecida"
+  },
+  {
+    "file": "marca/logo-transparente.png",
+    "type": "derivação da logo original com transparência estimada; revisar bordas"
+  },
+  {
+    "file": "decorativos/textura-cafe.webp",
+    "type": "textura de apoio gerada proceduralmente"
+  },
+  {
+    "file": "decorativos/textura-creme.webp",
+    "type": "textura de apoio gerada proceduralmente"
+  },
+  {
+    "file": "referencias/inspiracao-eden.jpg",
+    "type": "referência visual; NÃO copiar ou publicar como arte do restaurante"
+  }
+]

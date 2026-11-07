@@ -3,14 +3,12 @@
 @tailwind utilities;
 
 :root {
-  --wine-900: #3F120E;
-  --wine-700: #5C1B16;
-  --wine-500: #7A2A22;
-  --cream-100: #EEE5CF;
-  --cream-50: #F6EBD9;
-  --ink: #500000;
-  --tomato: #C8281E;
-  --basil: #4C7A34;
+  --cafe: #221710;
+  --marrom: #49301B;
+  --creme: #F7F0E2;
+  --manteiga: #E7D2AC;
+  --verde: #526343;
+  --terracota: #A64F33;
 
   --font-serif: 'Instrument Serif', Georgia, serif;
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -23,15 +21,16 @@
   
   html {
     font-family: var(--font-sans);
-    background-color: var(--wine-900);
-    color: var(--cream-50);
+    background-color: var(--cafe);
+    color: var(--creme);
+    scroll-behavior: smooth;
   }
 
   body {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
-    background-color: var(--wine-900);
+    background-color: var(--cafe);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -58,30 +57,31 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
-/* Fundo composto Hero sem banding de listras */
-.bg-hero-radial {
-  background-color: #3F120E;
-  background-image: radial-gradient(ellipse 55vw 55vw at 72% 42%, #7A2A22 0%, #5C1B16 55%, #3F120E 100%);
+/* Custom subtle textures and shadows */
+.bg-texture-cafe {
+  background-image: radial-gradient(circle at 50% 30%, rgba(73, 48, 27, 0.45) 0%, rgba(34, 23, 16, 0.95) 75%),
+                    url('/images/cantina-viana/decorativos/textura-cafe.webp');
+  background-blend-mode: overlay;
+  background-size: cover, 400px;
 }
 
-.bg-cream-radial {
-  background-color: #EEE5CF;
-  background-image: radial-gradient(circle at 50% 50%, #FAF5EB 0%, #EEE5CF 85%);
+.bg-texture-creme {
+  background-image: radial-gradient(circle at 50% 20%, rgba(253, 251, 247, 0.92) 0%, rgba(247, 240, 226, 0.98) 85%),
+                    url('/images/cantina-viana/decorativos/textura-creme.webp');
+  background-blend-mode: multiply;
+  background-size: cover, 350px;
 }
 
-/* Callout SVG line animation helpers */
-.callout-line {
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  transition: stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+/* Gastronomic card shadows and borders */
+.card-shadow-warm {
+  box-shadow: 0 16px 36px -12px rgba(34, 23, 16, 0.18), 0 4px 12px -2px rgba(34, 23, 16, 0.08);
 }
 
-.callout-active .callout-line {
-  stroke-dashoffset: 0;
+.card-shadow-deep {
+  box-shadow: 0 24px 48px -12px rgba(10, 6, 4, 0.5), 0 4px 16px -2px rgba(10, 6, 4, 0.3);
 }
 
-/* Touch and button sizing (Apple HIG) */
-.min-touch-target {
-  min-height: 48px;
-  min-width: 48px;
+/* Invert filter for dark background logo */
+.filter-logo-cream {
+  filter: brightness(0) saturate(100%) invert(94%) sepia(12%) saturate(348%) hue-rotate(345deg) brightness(102%) contrast(97%);
 }
