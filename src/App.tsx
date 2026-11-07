@@ -51,7 +51,24 @@ export const App: React.FC = () => {
       onLeaveBack: () => setIsFooterVisible(false),
     });
 
+    // Handle initial hash in URL (e.g. #ingredientes)
+    const handleInitialHash = () => {
+      const hash = window.location.hash;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (hash === '#ingredientes') {
+        lenis.scrollTo(maxScroll * 0.48, { duration: 1.2 });
+      } else if (hash === '#cardapio') {
+        lenis.scrollTo(maxScroll * 0.88, { duration: 1.2 });
+      } else if (hash === '#contato') {
+        lenis.scrollTo(maxScroll, { duration: 1.2 });
+      }
+    };
+
+    // Delay slightly to allow DOM and ScrollTrigger calculation
+    const timer = setTimeout(handleInitialHash, 300);
+
     return () => {
+      clearTimeout(timer);
       footerTrigger.kill();
       gsap.ticker.remove(updateTicker);
       lenis.destroy();
@@ -61,7 +78,10 @@ export const App: React.FC = () => {
   const handleActClick = (actIndex: number) => {
     if (!lenisRef.current) return;
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const targetScroll = actIndex === 0 ? 0 : actIndex === 1 ? maxScroll * 0.45 : maxScroll * 0.85;
+    // Act 0 -> top (0%)
+    // Act 1 -> Ingredientes / Balé (48%)
+    // Act 2 -> Masterpiece / Prato (88%)
+    const targetScroll = actIndex === 0 ? 0 : actIndex === 1 ? maxScroll * 0.48 : maxScroll * 0.88;
     lenisRef.current.scrollTo(targetScroll, { duration: 1.5 });
   };
 
