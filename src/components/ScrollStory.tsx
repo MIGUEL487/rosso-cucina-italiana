@@ -76,19 +76,17 @@ export const ScrollStory: React.FC<ScrollStoryProps> = ({
         willChange: 'clip-path',
       });
 
-      // Garfo vazio começa oculto
-      gsap.set('.hero-img-fork-empty', {
-        autoAlpha: 0,
+      // Camadas do Garfo e Novelo dentro de hero-fork-box
+      gsap.set('.hero-img-twirl-combined', {
+        autoAlpha: 1,
       });
-
-      // Novelo em queda (.falling-twirl-wrapper) começa alinhado ao garfo no quadrante superior direito
-      gsap.set('.falling-twirl-wrapper', {
-        x: '24vw',
-        y: '-14vh',
+      gsap.set(['.hero-img-fork-empty', '.hero-img-twirl-only'], {
+        autoAlpha: 0,
+        x: 0,
+        y: 0,
         scaleX: 1,
         scaleY: 1,
         rotation: 0,
-        autoAlpha: 0,
       });
 
       // Espiral e itens do ballet começam fora de cena
@@ -155,7 +153,7 @@ export const ScrollStory: React.FC<ScrollStoryProps> = ({
       });
 
       // =================================================================
-      // FASE 1: HERO -> O NOVELO CAI PARA O CENTRO E DESAPARECE
+      // FASE 1: HERO -> O NOVELO SE SOLTA, CAI NO CENTRO E SOME
       // =================================================================
 
       // 1.1 Título do Hero sobe e some
@@ -166,22 +164,22 @@ export const ScrollStory: React.FC<ScrollStoryProps> = ({
         ease: 'power2.in',
       }, 0);
 
-      // 1.2 No início do movimento, troca suave da imagem combinada para o garfo e o novelo de queda
+      // 1.2 Transição inicial: troca do hero combinado para garfo vazio + novelo separado
       masterTL.to('.hero-img-twirl-combined', {
         autoAlpha: 0,
-        duration: 0.3,
+        duration: 0.25,
         ease: 'power1.inOut',
-      }, 0.15);
+      }, 0.12);
       masterTL.to('.hero-img-fork-empty', {
         autoAlpha: 1,
-        duration: 0.3,
+        duration: 0.25,
         ease: 'power1.inOut',
-      }, 0.15);
-      masterTL.to('.falling-twirl-wrapper', {
+      }, 0.12);
+      masterTL.to('.hero-img-twirl-only', {
         autoAlpha: 1,
-        duration: 0.3,
+        duration: 0.25,
         ease: 'power1.inOut',
-      }, 0.15);
+      }, 0.12);
 
       // 1.3 O garfo inclina e sai para cima/direita
       masterTL.to('.hero-img-fork-empty', {
@@ -192,42 +190,42 @@ export const ScrollStory: React.FC<ScrollStoryProps> = ({
         autoAlpha: 0,
         duration: 1.2,
         ease: 'power2.inOut',
-      }, 0.4);
-
-      // 1.4 A faixa creme sobe de baixo (POR TRÁS DA MASSA EM QUEDA)
-      masterTL.to(creamLayerRef.current, {
-        clipPath: 'inset(0% 0% 0% 0%)',
-        duration: 1.4,
-        ease: 'power2.inOut',
-      }, 0.4);
-
-      // 1.5 O NOVELO CAI EM DIREÇÃO AO CENTRO EXATO (onde a espiral vai ficar!)
-      // Vai de (x: 24vw, y: -14vh) diretamente para o centro (x: 0, y: 0) esticando com a gravidade
-      masterTL.to('.falling-twirl-wrapper', {
-        x: 0,
-        y: 0,
-        scaleY: 1.35,
-        scaleX: 0.95,
-        rotation: -8,
-        duration: 1.2,
-        ease: 'power1.in',
       }, 0.35);
 
-      // 1.6 O NOVELO CONTINUA CAINDO PARA BAIXO E DESAPARECE ANTES DA ESPIRAL ENTRAR!
+      // 1.4 A faixa creme sobe cobrindo o vinho (POR TRÁS DA MASSA)
+      masterTL.to(creamLayerRef.current, {
+        clipPath: 'inset(0% 0% 0% 0%)',
+        duration: 1.3,
+        ease: 'power2.inOut',
+      }, 0.35);
+
+      // 1.5 O NOVELO SE SOLTA E CAI EM DIREÇÃO AO CENTRO EXATO DA TELA
+      // Onde a espiral vai ficar! Deslocamento horizontal preciso (-25vw desktop / -8vw mobile)
+      masterTL.to('.hero-img-twirl-only', {
+        x: () => (window.innerWidth < 768 ? '-8vw' : '-25vw'),
+        y: () => (window.innerWidth < 768 ? '24vh' : '20vh'),
+        scaleY: 1.35,
+        scaleX: 0.95,
+        rotation: -6,
+        duration: 1.2,
+        ease: 'power1.in',
+      }, 0.28);
+
+      // 1.6 O NOVELO DESPENCA PARA BAIXO E DESAPARECE COMPLETAMENTE ANTES DA ESPIRAL APARECER!
       // "o macarrao deve cair sempre onde o outro vai ficar e deve desapareçer antes do outro aparecer pra dar a impressçao de cair"
-      masterTL.to('.falling-twirl-wrapper', {
-        y: '55vh',
+      masterTL.to('.hero-img-twirl-only', {
+        y: '+=50vh',
         scaleY: 1.6,
         autoAlpha: 0,
-        duration: 0.6,
+        duration: 0.55,
         ease: 'power2.in',
-      }, 1.55);
+      }, 1.48);
 
       // =================================================================
       // FASE 2: A ESPIRAL CAI DE CIMA NO MESMO LUGAR E O ATO 2 SE ABRE
       // =================================================================
 
-      // 2.1 AGORA que o novelo desapareceu na queda (após t=2.15), a espiral despenca de cima para o MESMO centro!
+      // 2.1 AGORA que o novelo desapareceu na queda (após t=2.03), a espiral despenca de cima para o MESMO centro!
       masterTL.fromTo('.ballet-spiral-wrapper', {
         y: -280,
         scale: 0.88,
@@ -236,59 +234,59 @@ export const ScrollStory: React.FC<ScrollStoryProps> = ({
         y: 0,
         scale: 1,
         autoAlpha: 1,
-        duration: 0.7,
+        duration: 0.6,
         ease: 'power2.out',
-      }, 2.15);
+      }, 2.05);
 
       // 2.2 Título do Ato 2 entra
       masterTL.to('.ballet-title-block', {
         autoAlpha: 1,
         y: 0,
-        duration: 0.7,
+        duration: 0.6,
         ease: 'power2.out',
-      }, 2.3);
+      }, 2.2);
 
       // 2.3 Ingredientes orbitam para fora com stagger
       masterTL.to('.ballet-item', {
         autoAlpha: 1,
         scale: 1,
-        stagger: 0.1,
-        duration: 1.0,
+        stagger: 0.08,
+        duration: 0.9,
         ease: 'back.out(1.15)',
-      }, 2.4);
+      }, 2.3);
 
       // 2.4 Callouts e setas aparecem
       masterTL.to(['.ballet-callout', '.ballet-arrow'], {
         autoAlpha: 1,
         duration: 0.5,
         ease: 'power2.out',
-      }, 2.8);
+      }, 2.6);
 
       // 2.5 Espiral gira suavemente enquanto o usuário navega pelo Ato 2
       masterTL.to('.ballet-spiral-wrapper', {
         rotation: 22,
         scale: 1.05,
-        duration: 2.0,
+        duration: 1.8,
         ease: 'none',
-      }, 2.5);
+      }, 2.4);
 
       // 2.6 FIM DO ATO 2 — Callouts e setas recolhem e somem
       masterTL.to('.ballet-callout', {
         autoAlpha: 0,
         duration: 0.4,
         ease: 'power2.in',
-      }, 3.8);
+      }, 3.6);
       masterTL.to('.ballet-arrow', {
         autoAlpha: 0,
         duration: 0.3,
         ease: 'power2.in',
-      }, 3.8);
+      }, 3.6);
       masterTL.to('.ballet-title-block', {
         autoAlpha: 0,
         y: -30,
         duration: 0.5,
         ease: 'power2.in',
-      }, 3.9);
+      }, 3.7);
 
       // =================================================================
       // FASE 3: A ESPIRAL CAI PARA O PRATO E DESAPARECE; O PRATO SOBE
@@ -300,42 +298,42 @@ export const ScrollStory: React.FC<ScrollStoryProps> = ({
         autoAlpha: 0,
         rotation: '+=30',
         stagger: 0.06,
-        duration: 1.0,
+        duration: 0.9,
         ease: 'power2.in',
-      }, 4.1);
+      }, 3.9);
 
       // 3.2 A ESPIRAL CAI PELO CENTRO PARA BAIXO E DESAPARECE
       // "o macarrao deve cair sempre onde o outro vai ficar e deve desapareçer antes do outro aparecer pra dar a impressçao de cair"
       masterTL.to('.ballet-spiral-wrapper', {
-        y: '60vh',
-        scale: 0.6,
+        y: '+=45vh',
+        scale: 0.55,
         autoAlpha: 0,
-        duration: 0.9,
+        duration: 0.8,
         ease: 'power2.in',
-      }, 4.2);
+      }, 4.0);
 
       // 3.3 Ato 3 Masterpiece ativa (após a espiral cair e sumir)
       masterTL.to(masterpieceActRef.current, {
         autoAlpha: 1,
         pointerEvents: 'auto',
         duration: 0.5,
-      }, 4.9);
+      }, 4.7);
 
       // 3.4 Prato com a massa montada sobe suavemente
       masterTL.to('.masterpiece-plate-img', {
         y: '0%',
         scale: 1,
-        duration: 1.3,
+        duration: 1.2,
         ease: 'power3.out',
-      }, 5.1);
+      }, 4.9);
 
       // 3.5 Título "SUA MESA ESTÁ ESPERANDO." e botão entram
       masterTL.to('.masterpiece-header', {
         y: 0,
         opacity: 1,
-        duration: 0.9,
+        duration: 0.8,
         ease: 'power2.out',
-      }, 5.3);
+      }, 5.1);
 
     }, containerRef);
 
@@ -371,16 +369,17 @@ export const ScrollStory: React.FC<ScrollStoryProps> = ({
         </div>
       </div>
 
-      {/* Camada 3: Garfo no Canto Superior Direito (z-30) */}
+      {/* Camada 3: Garfo e Massa do Hero (z-index 35 - ACIMA DA FAIXA CREME!) */}
       <div
-        className="hero-fork-box absolute top-0 -right-[1vw] z-30 pointer-events-none origin-top-right flex items-start justify-end"
+        className="hero-fork-box absolute top-0 -right-[1vw] pointer-events-none origin-top-right flex items-start justify-end"
         style={{
+          zIndex: 35,
           width: 'clamp(320px, 46vw, 680px)',
           height: 'clamp(46svh, 96svh, 980px)',
         }}
       >
         <div className="relative w-full h-full">
-          {/* Garfo + novelo combinado no repouso */}
+          {/* 1. Garfo + novelo combinado no repouso */}
           <img
             src="/assets/hero-fork-twirl.png"
             alt="Garfo artesanal com espaguete enrolado e frutos do mar"
@@ -390,7 +389,7 @@ export const ScrollStory: React.FC<ScrollStoryProps> = ({
             decoding="async"
           />
 
-          {/* Garfo vazio que inclina e sai para cima/direita */}
+          {/* 2. Garfo vazio que inclina e sai para cima/direita */}
           <img
             src="/assets/hero-fork-empty.png"
             alt=""
@@ -400,17 +399,14 @@ export const ScrollStory: React.FC<ScrollStoryProps> = ({
             loading="eager"
             decoding="async"
           />
-        </div>
-      </div>
 
-      {/* Camada 4: Novelo de Massa em Queda Centralizada (z-35 - ACIMA DA FAIXA CREME) */}
-      <div className="falling-twirl-container absolute inset-0 z-35 pointer-events-none flex items-center justify-center overflow-hidden">
-        <div className="falling-twirl-wrapper relative w-[280px] sm:w-[380px] md:w-[440px] h-[400px] sm:h-[520px] flex items-center justify-center">
+          {/* 3. Novelo de massa que se solta do garfo, cai em direção ao centro e despenca */}
           <img
             src="/assets/hero-twirl-only.png"
             alt=""
             aria-hidden="true"
-            className="falling-twirl-img w-full h-full object-contain filter drop-shadow-[0_24px_36px_rgba(0,0,0,0.55)]"
+            className="hero-img-twirl-only absolute inset-0 w-full h-full object-contain object-top-right filter drop-shadow-[0_24px_36px_rgba(0,0,0,0.55)]"
+            style={{ opacity: 0, visibility: 'hidden' }}
             loading="eager"
             decoding="async"
           />
