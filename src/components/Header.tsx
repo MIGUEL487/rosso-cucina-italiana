@@ -13,7 +13,7 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-colors duration-500 px-6 sm:px-12 py-5 sm:py-6 ${
-        isCream ? 'bg-cream-100/90 text-ink backdrop-blur-md shadow-sm' : 'bg-transparent text-cream-50'
+        isCream ? 'bg-cream-100/95 text-ink backdrop-blur-md shadow-sm' : 'bg-transparent text-cream-50'
       }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -31,10 +31,10 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
         <div className="hidden md:flex items-center justify-center relative min-h-[32px]">
           {/* Ato 1 Nav */}
           <nav
-            className={`flex items-center space-x-8 text-xs tracking-[0.18em] font-medium transition-all duration-500 ${
+            className={`flex items-center space-x-8 text-xs tracking-[0.18em] font-medium transition-all duration-300 ${
               isCream
-                ? 'opacity-0 -translate-y-3 pointer-events-none absolute'
-                : 'opacity-100 translate-y-0 relative'
+                ? 'opacity-0 -translate-y-2 pointer-events-none absolute invisible'
+                : 'opacity-100 translate-y-0 relative visible'
             }`}
           >
             {siteContent.nav.map((item, idx) => {
@@ -58,10 +58,10 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
 
           {/* Atos 2 & 3 Center Title */}
           <div
-            className={`transition-all duration-500 font-sans text-xs tracking-[0.25em] font-semibold text-ink uppercase ${
+            className={`transition-all duration-300 font-sans text-xs tracking-[0.25em] font-semibold text-ink uppercase ${
               isCream
-                ? 'opacity-100 translate-y-0 relative'
-                : 'opacity-0 translate-y-3 pointer-events-none absolute'
+                ? 'opacity-100 translate-y-0 relative visible'
+                : 'opacity-0 translate-y-2 pointer-events-none absolute invisible'
             }`}
           >
             {siteContent.ballet.headerTitle}
@@ -70,10 +70,10 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
 
         {/* Right CTA + Controls */}
         <div className="flex items-center space-x-3 sm:space-x-4">
-          {/* Action button: changes visual style between Hero and Cream */}
+          {/* Action button */}
           <div className="flex items-center">
             {isCream ? (
-              // Cream state: Pill + Wine Square with White Search Icon (as seen in video reference 2 & 3)
+              // Cream state: Pill + Wine Square with White Search Icon
               <div className="flex items-center shadow-sm">
                 <a
                   href="#cardapio"
@@ -117,7 +117,7 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
 
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 top-[73px] bg-wine-900/95 backdrop-blur-xl z-40 flex flex-col items-center justify-center p-8 space-y-8 animate-fadeIn md:hidden">
+        <div className="fixed inset-0 top-[73px] bg-wine-900/98 backdrop-blur-xl z-40 flex flex-col items-center justify-center p-8 space-y-8 animate-fadeIn md:hidden">
           <nav className="flex flex-col items-center space-y-6 text-base tracking-[0.2em] font-medium text-cream-50">
             {siteContent.nav.map((item) => (
               <a

@@ -2,59 +2,60 @@ import React from 'react';
 
 interface CalloutLabelProps {
   label: string;
-  x: number; // percentage (0 - 100)
-  y: number; // percentage (0 - 100)
   side?: 'left' | 'right';
-  active?: boolean;
+  className?: string;
 }
 
 export const CalloutLabel: React.FC<CalloutLabelProps> = ({
   label,
-  x,
-  y,
   side = 'left',
-  active = true,
+  className = '',
 }) => {
   const isLeft = side === 'left';
 
   return (
     <div
-      className={`absolute pointer-events-none transition-opacity duration-700 select-none z-30 ${
-        active ? 'opacity-100' : 'opacity-0'
-      }`}
-      style={{ left: `${x}%`, top: `${y}%` }}
+      className={`ballet-callout absolute pointer-events-none select-none z-30 transition-opacity duration-300 ${className}`}
+      style={{
+        top: '40%',
+        ...(isLeft ? { right: '100%', marginRight: '8px' } : { left: '100%', marginLeft: '8px' }),
+      }}
     >
-      <div className="relative flex items-center">
+      <div className="relative flex items-center whitespace-nowrap">
         {/* SVG elbow line */}
         <svg
           className="absolute overflow-visible pointer-events-none"
-          width="90"
-          height="40"
+          width="80"
+          height="32"
           style={{
-            transform: isLeft ? 'translate(-80px, -20px)' : 'translate(0px, -20px)',
+            top: '50%',
+            transform: 'translateY(-50%)',
+            ...(isLeft ? { right: 0 } : { left: 0 }),
           }}
         >
           {isLeft ? (
             <path
-              d="M 80 20 L 40 20 L 10 35"
+              className="callout-line"
+              d="M 80 16 L 36 16 L 10 28"
               fill="none"
               stroke="#500000"
               strokeWidth="1.2"
-              strokeOpacity="0.75"
+              strokeOpacity="0.8"
             />
           ) : (
             <path
-              d="M 10 20 L 50 20 L 80 35"
+              className="callout-line"
+              d="M 0 16 L 44 16 L 70 28"
               fill="none"
               stroke="#500000"
               strokeWidth="1.2"
-              strokeOpacity="0.75"
+              strokeOpacity="0.8"
             />
           )}
-          {/* Target endpoint dot */}
+          {/* Endpoint dot touching the ingredient */}
           <circle
-            cx={isLeft ? 80 : 10}
-            cy="20"
+            cx={isLeft ? 80 : 0}
+            cy="16"
             r="2.5"
             fill="#500000"
           />
@@ -62,10 +63,10 @@ export const CalloutLabel: React.FC<CalloutLabelProps> = ({
 
         {/* Text label */}
         <span
-          className={`font-serif italic text-sm sm:text-base text-ink whitespace-nowrap tracking-wide drop-shadow-sm ${
-            isLeft ? '-translate-x-full pr-3' : 'translate-x-20 pl-3'
+          className={`font-serif italic text-sm sm:text-base text-ink tracking-wide ${
+            isLeft ? 'pr-20' : 'pl-20'
           }`}
-          style={{ textShadow: '0 1px 2px rgba(255,255,255,0.8)' }}
+          style={{ textShadow: '0 1px 3px rgba(255,255,255,0.9)' }}
         >
           {label}
         </span>

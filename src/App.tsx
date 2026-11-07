@@ -14,6 +14,7 @@ gsap.registerPlugin(ScrollTrigger);
 export const App: React.FC = () => {
   const [isCream, setIsCream] = useState(false);
   const [activeAct, setActiveAct] = useState(0);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
   const [reservationOpen, setReservationOpen] = useState(false);
   const lenisRef = useRef<Lenis | null>(null);
 
@@ -41,7 +42,17 @@ export const App: React.FC = () => {
     gsap.ticker.add(updateTicker);
     gsap.ticker.lagSmoothing(0);
 
+    // Watch footer visibility to hide PageDots & SectionLabel on footer
+    const footerTrigger = ScrollTrigger.create({
+      trigger: '#contato',
+      start: 'top 85%',
+      end: 'bottom bottom',
+      onEnter: () => setIsFooterVisible(true),
+      onLeaveBack: () => setIsFooterVisible(false),
+    });
+
     return () => {
+      footerTrigger.kill();
       gsap.ticker.remove(updateTicker);
       lenis.destroy();
     };
@@ -50,7 +61,6 @@ export const App: React.FC = () => {
   const handleActClick = (actIndex: number) => {
     if (!lenisRef.current) return;
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    // Map acts: 0 -> top, 1 -> 45%, 2 -> 80%
     const targetScroll = actIndex === 0 ? 0 : actIndex === 1 ? maxScroll * 0.45 : maxScroll * 0.85;
     lenisRef.current.scrollTo(targetScroll, { duration: 1.5 });
   };
@@ -60,24 +70,28 @@ export const App: React.FC = () => {
       {/* Dynamic Header */}
       <Header isCream={isCream} activeSection={activeAct} />
 
-      {/* Persistent Left Section Label (rotates and adapts) */}
-      <SectionLabel
-        label={
-          activeAct === 0
-            ? siteContent.hero.sectionLabel
-            : activeAct === 1
-            ? 'SEÇÃO 02'
-            : 'SEÇÃO 03'
-        }
-        isCream={isCream}
-      />
+      {/* Persistent Left Section Label (hidden on footer) */}
+      <div className={`transition-opacity duration-500 ${isFooterVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        <SectionLabel
+          label={
+            activeAct === 0
+              ? siteContent.hero.sectionLabel
+              : activeAct === 1
+              ? 'SEÇÃO 02'
+              : 'SEÇÃO 03'
+          }
+          isCream={isCream}
+        />
+      </div>
 
-      {/* Right Vertical Page Dots Indicator */}
-      <PageDots
-        currentAct={activeAct}
-        isCream={isCream}
-        onActClick={handleActClick}
-      />
+      {/* Right Vertical Page Dots Indicator (hidden on footer) */}
+      <div className={`transition-opacity duration-500 ${isFooterVisible ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+        <PageDots
+          currentAct={activeAct}
+          isCream={isCream}
+          onActClick={handleActClick}
+        />
+      </div>
 
       {/* Main Orchestrated Scroll Story (Acts 1, 2, 3) */}
       <main id="inicio">

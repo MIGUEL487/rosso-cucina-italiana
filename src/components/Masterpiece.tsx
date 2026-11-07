@@ -7,9 +7,9 @@ interface MasterpieceProps {
 
 export const Masterpiece: React.FC<MasterpieceProps> = ({ onReserveClick }) => {
   return (
-    <div className="relative w-full h-screen flex flex-col items-center justify-between px-6 sm:px-12 overflow-hidden select-none bg-cream-radial text-ink pt-28 pb-8">
+    <div className="relative w-full h-screen flex flex-col items-center justify-between px-6 sm:px-12 overflow-hidden select-none bg-cream-radial text-ink pt-24 sm:pt-28 pb-4">
       {/* Top Title Section */}
-      <div className="masterpiece-header text-center z-20 max-w-3xl flex flex-col items-center">
+      <div className="masterpiece-header text-center z-20 max-w-3xl flex flex-col items-center pointer-events-auto">
         {/* Section number 03 in Serif Italic */}
         <span className="masterpiece-number font-serif italic text-xl sm:text-2xl text-ink/70 mb-1">
           {siteContent.masterpiece.number}
@@ -25,7 +25,7 @@ export const Masterpiece: React.FC<MasterpieceProps> = ({ onReserveClick }) => {
           {siteContent.masterpiece.title}
         </h2>
 
-        {/* CTA Button placed elegantly */}
+        {/* CTA Button */}
         <div className="masterpiece-cta pt-6">
           <a
             href="#reservar"
@@ -43,11 +43,11 @@ export const Masterpiece: React.FC<MasterpieceProps> = ({ onReserveClick }) => {
       </div>
 
       {/* Big Masterpiece Plate rising from bottom */}
-      <div className="masterpiece-plate-wrapper relative w-full max-w-[1020px] aspect-[16/10] flex items-end justify-center pointer-events-none z-10 -mb-8 sm:-mb-16">
+      <div className="masterpiece-plate-wrapper relative w-full max-w-[960px] aspect-[16/10] flex items-end justify-center pointer-events-none z-10 -mb-6 sm:-mb-12">
         <img
           src="/assets/plate-dish.png"
           alt="Obra-prima de espaguete artesanal com frutos do mar frescos servido no prato de cerâmica"
-          className="masterpiece-plate-img w-full h-full object-contain filter drop-shadow-[0_28px_40px_rgba(80,0,0,0.25)]"
+          className="masterpiece-plate-img w-full h-full object-contain filter drop-shadow-[0_28px_40px_rgba(80,0,0,0.22)]"
           loading="lazy"
           decoding="async"
         />

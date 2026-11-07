@@ -1,0 +1,3 @@
+hero-fork-empty.png e hero-twirl-only.png foram geradas com enquadramento aproximado, nao separacao exata de pixels do hero-fork-twirl.png. Ao empilhar as duas, NAO se reproduz o hero original: ajuste escala/posicao das camadas ao animar com GSAP.
+hero-twirl-only.png: removido um fragmento solto no canto superior esquerdo (conferido: sem sobras).
+Fundo vinho: preferir CSS.

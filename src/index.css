@@ -31,6 +31,7 @@
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    background-color: var(--wine-900);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -57,20 +58,22 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
-/* Custom background utilities */
+/* Fundo composto Hero sem banding de listras */
 .bg-hero-radial {
-  background: radial-gradient(circle at 68% 45%, #7A2A22 0%, #5C1B16 45%, #3F120E 100%);
+  background-color: #3F120E;
+  background-image: radial-gradient(ellipse 55vw 55vw at 72% 42%, #7A2A22 0%, #5C1B16 55%, #3F120E 100%);
 }
 
 .bg-cream-radial {
-  background: radial-gradient(circle at 50% 50%, #FAF5EB 0%, #EEE5CF 85%);
+  background-color: #EEE5CF;
+  background-image: radial-gradient(circle at 50% 50%, #FAF5EB 0%, #EEE5CF 85%);
 }
 
 /* Callout SVG line animation helpers */
 .callout-line {
   stroke-dasharray: 200;
   stroke-dashoffset: 200;
-  transition: stroke-dashoffset 0.6s ease;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .callout-active .callout-line {
