@@ -12,47 +12,39 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-5 sm:px-10 py-3.5 sm:py-4 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 px-6 sm:px-12 py-3 sm:py-4 ${
         isCream
-          ? 'bg-[#F7F0E2]/90 backdrop-blur-md border-b border-[#49301B]/10 text-[#49301B] shadow-sm'
-          : 'bg-[#221710]/85 backdrop-blur-md border-b border-[#E7D2AC]/10 text-[#F7F0E2]'
+          ? 'bg-[#F7F0E2]/92 backdrop-blur-md border-b border-[#49301B]/10 text-[#49301B] shadow-sm'
+          : 'bg-[#1F130B]/75 backdrop-blur-md border-b border-white/5 text-[#F7F0E2]'
       }`}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Brand Logo & Name */}
+        
+        {/* Brand Logo matching reference exact */}
         <a
           href="#inicio"
-          className="group flex items-center space-x-3 focus:outline-none focus:ring-2 focus:ring-[#E7D2AC]/50 rounded-lg p-1 transition-transform duration-300 hover:scale-[1.02]"
+          className="group flex items-center focus:outline-none rounded-lg transition-transform duration-300 hover:scale-[1.03]"
           aria-label="Cantina Viana Restaurante — Início"
         >
           <img
-            src={siteContent.brand.logoTransparent}
+            src={
+              isCream
+                ? '/images/cantina-viana/marca/logo-transparente.png'
+                : '/images/cantina-viana/marca/logo-cream-transparente.png'
+            }
             alt="Cantina Viana Restaurante"
-            className={`h-10 sm:h-12 w-auto object-contain transition-all duration-300 ${
-              isCream ? '' : 'filter-logo-cream'
-            }`}
+            className="h-12 sm:h-14 w-auto object-contain transition-opacity duration-300"
           />
-          <div className="flex flex-col">
-            <span className={`font-serif tracking-wide font-normal text-xl sm:text-2xl leading-none ${
-              isCream ? 'text-[#49301B]' : 'text-[#F7F0E2]'
-            }`}>
-              CANTINA VIANA
-            </span>
-            <span className={`text-[10px] sm:text-xs uppercase tracking-[0.22em] font-medium mt-0.5 ${
-              isCream ? 'text-[#A64F33]' : 'text-[#E7D2AC]'
-            }`}>
-              Restaurante · Monte Sião
-            </span>
-          </div>
         </a>
 
-        {/* Desktop Nav */}
+        {/* Center Desktop Navigation */}
         <nav
-          className="hidden md:flex items-center space-x-7 text-xs tracking-[0.14em] uppercase font-medium"
+          className="hidden md:flex items-center space-x-8 text-[11px] lg:text-xs tracking-[0.2em] uppercase font-medium"
           aria-label="Navegação principal"
         >
           {siteContent.nav.map((item) => {
-            const isActive = activeSection === item.href.replace('#', '');
+            const sectionId = item.href.replace('#', '');
+            const isActive = activeSection === sectionId;
             return (
               <a
                 key={item.label}
@@ -63,8 +55,8 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
                       ? 'text-[#A64F33] font-semibold'
                       : 'text-[#49301B]/80 hover:text-[#49301B]'
                     : isActive
-                    ? 'text-[#E7D2AC] font-semibold'
-                    : 'text-[#F7F0E2]/80 hover:text-white'
+                    ? 'text-white font-semibold'
+                    : 'text-[#F7F0E2]/75 hover:text-white'
                 }`}
               >
                 {item.label}
@@ -80,21 +72,21 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
           })}
         </nav>
 
-        {/* Right CTA + Mobile Toggle */}
+        {/* Right CTA Button matching reference exact */}
         <div className="flex items-center space-x-3">
           <a
             href={siteContent.headerCta.href}
-            className={`hidden sm:inline-flex items-center space-x-2 px-5 py-2 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 shadow-sm ${
+            className={`hidden sm:inline-flex items-center space-x-2.5 px-6 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 shadow-sm hover:scale-[1.02] ${
               isCream
                 ? 'bg-[#49301B] text-[#F7F0E2] hover:bg-[#221710]'
-                : 'bg-[#E7D2AC] text-[#221710] hover:bg-white'
+                : 'bg-[#E7D2AC] text-[#221710] hover:bg-white hover:text-black'
             }`}
           >
-            <UtensilsCrossed size={13} />
+            <UtensilsCrossed size={14} className="stroke-[2.2]" />
             <span>{siteContent.headerCta.label}</span>
           </a>
 
-          {/* Mobile hamburger button */}
+          {/* Mobile menu toggle */}
           <button
             type="button"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -107,6 +99,7 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
             {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
           </button>
         </div>
+
       </div>
 
       {/* Mobile Drawer Menu */}
@@ -115,10 +108,10 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
           className={`md:hidden px-6 pt-4 pb-6 mt-3 border-t rounded-2xl transition-all duration-300 ${
             isCream
               ? 'bg-[#FDFBF7] border-[#49301B]/15 text-[#49301B] shadow-lg'
-              : 'bg-[#221710] border-[#E7D2AC]/20 text-[#F7F0E2] shadow-xl'
+              : 'bg-[#1F130B] border-white/10 text-[#F7F0E2] shadow-xl'
           }`}
         >
-          <div className="flex flex-col space-y-3 text-sm font-medium tracking-wider uppercase">
+          <div className="flex flex-col space-y-3 text-xs font-medium tracking-[0.18em] uppercase">
             {siteContent.nav.map((item) => (
               <a
                 key={item.label}
@@ -135,7 +128,7 @@ export const Header: React.FC<HeaderProps> = ({ isCream, activeSection }) => {
               <a
                 href={siteContent.headerCta.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-full text-xs uppercase font-semibold tracking-wider bg-[#A64F33] text-white hover:bg-[#8C3F27] transition-colors"
+                className="w-full inline-flex items-center justify-center space-x-2 py-3 rounded-full text-xs uppercase font-semibold tracking-wider bg-[#E7D2AC] text-[#221710] hover:bg-white transition-colors"
               >
                 <UtensilsCrossed size={14} />
                 <span>{siteContent.headerCta.label}</span>
