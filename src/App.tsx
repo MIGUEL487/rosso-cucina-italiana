@@ -134,13 +134,16 @@ export const App: React.FC = () => {
 
     document.addEventListener('click', handleHashClick);
 
-    // Refresh ScrollTrigger once DOM is stabilized
-    const timer = setTimeout(() => {
-      ScrollTrigger.refresh();
-    }, 200);
+    // Refresh ScrollTrigger on load and resize
+    const handleRefresh = () => ScrollTrigger.refresh();
+    window.addEventListener('load', handleRefresh);
+    window.addEventListener('resize', handleRefresh);
+    const timer = setTimeout(handleRefresh, 300);
 
     return () => {
       clearTimeout(timer);
+      window.removeEventListener('load', handleRefresh);
+      window.removeEventListener('resize', handleRefresh);
       document.removeEventListener('click', handleHashClick);
       ctx.revert();
       gsap.ticker.remove(updateTicker);
@@ -149,7 +152,7 @@ export const App: React.FC = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-[#221710] font-sans text-[#F7F0E2] selection:bg-[#A64F33] selection:text-white">
+    <div className="relative min-h-screen bg-[#1A100B] font-sans text-[#F7F0E2] selection:bg-[#A64F33] selection:text-white">
       {/* Sticky Dynamic Header */}
       <Header isCream={isCream} activeSection={activeSection} />
 
@@ -178,4 +181,3 @@ export const App: React.FC = () => {
 };
 
 export default App;
-
